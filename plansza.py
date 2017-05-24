@@ -1,111 +1,89 @@
 import pygame
 import sys
 import random
+from pygame.math import Vector2
 
-class plansza(object):
+class Plansza(object):
 
     def __init__(self):
         """Konfiguracja, pętla główna, tytuł."""
-        self.screen =  pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Plansza gry")
+        self.resolution = (1280, 720)
+        self.screen = pygame.display.set_mode(self.resolution)
+        pygame.display.set_caption("Planszóweczka")
         self.size = self.screen.get_size()
+        self.clock = pygame.time.Clock()
+        self.wspolrzedne_srodkow = []
+        self.ruch = 0
+        self.zielony = (0, 250, 0)
         pygame.init()
 
-        # kolory
-        self.kolor_czarny = (0, 0, 0)
-
         while True:
-            for self.event in pygame.event.get():
-                if self.event.type == pygame.QUIT:
-                    sys.exit(0)
-                elif self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_ESCAPE:
-                    sys.exit(0)
-                if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_l:
-                    self.losowanie()
-                    self.ruch()
-                if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_SPACE:
-                    self.rysuj()
+            self.events()
 
+    def events(self):
+        """Zdarzenia"""
+        for self.event in pygame.event.get():
+            if self.event.type == pygame.QUIT:
+                sys.exit(0)
+            elif self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_ESCAPE:
+                sys.exit(0)
+            if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_l:
+                self.random()
+                self.move()
+            if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_SPACE:
+                self.draw()
 
-    def rysuj(self):
-        """Funkcja rysująca planszę."""
-
-        #for i in range (1, 164, 41):
-            #self.kwadrat = pygame.Rect(350+i ,300 , 40, 40)
-            #self.pole=pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
-            #self.pola.append(self.pole)
-        #for i in range(1,164,41):
-            #self.kwadrat = pygame.Rect(515, 301-i, 40, 40)
-            #self.pole=pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
-            #self.pola.append(self.pole)
-        #for i in range(1,123,41):
-            #self.kwadrat = pygame.Rect(475 - i, 177, 40, 40)
-            #self.pole=pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
-            #self.pola.append(self.pole)
-        #print(self.pola)
-        self.niebieski = ((0, 150, 255))
-        self.czerwony = ((255, 0, 0))
-        self.pola = []
-        self.a = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(400, 170, 40, 40))
-        self.pola.append(self.niebieski)
-        self.b = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(441, 170, 40, 40))
-        self.pola.append(self.niebieski)
-        self.c = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(441, 211, 40, 40))
-        self.pola.append(self.niebieski)
-        self.d = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(441, 252, 40, 40))
-        self.pola.append(self.niebieski)
-        self.e = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(400, 252, 40, 40))
-        self.pola.append(self.niebieski)
-        self.f = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(400, 293, 40, 40))
-        self.pola.append(self.niebieski)
-        self.g = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(400, 334, 40, 40))
-        self.pola.append(self.niebieski)
-        self.h = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(441, 334, 40, 40))
-        self.pola.append(self.niebieski)
-        self.i = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(482, 334, 40, 40))
-        self.pola.append(self.niebieski)
-        self.j = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(482, 375, 40, 40))
-        self.pola.append(self.niebieski)
-        print(self.pola)
-
+    def draw(self):
+        for i in range(0, 220, 55):
+            self.wsp_x = 200 + i
+            self.wsp_y = 300
+            self.obiekt = Vector2(self.wsp_x, self.wsp_y)
+            self.wspolrzedne_srodkow.append(self.obiekt)
+            self.kwadrat = pygame.Rect(self.wsp_x,self.wsp_y, 50, 50)
+            pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
+        for j in range(0, 165, 55):
+            self.wsp_x = 420
+            self.wsp_y = 300 - j
+            self.obiekt = Vector2(self.wsp_x, self.wsp_y)
+            self.wspolrzedne_srodkow.append(self.obiekt)
+            self.kwadrat = pygame.Rect(420, 300-j, 50, 50)
+            pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
+        print(self.wspolrzedne_srodkow)
         pygame.display.flip()
 
+    def random(self):
+        self.los = random.randint(1, 1)
+        print(self.los)
+
+    def move(self):
+
+        self.tempRuch = self.ruch+self.los
+        if self.tempRuch >= len(self.wspolrzedne_srodkow):
+            self.tak = pygame.Rect(420, 190, 50, 50)
+            self.pole1 = pygame.draw.rect(self.screen, self.zielony, self.tak)
+            pygame.display.flip()
+            print("przekroczony indeks tablicy")
+            pass
+
+        else:
+            self.pole = self.wspolrzedne_srodkow[self.tempRuch]
+            self.tak = pygame.Rect(self.pole.x, self.pole.y, 50, 50)
+            pygame.draw.rect(self.screen, self.zielony, self.tak)
+            pygame.display.flip()
+            self.ruch = self.tempRuch
+            print("krok")
+        print("tempRuch:      ", self.tempRuch)
 
 
-    def losowanie(self):
-        """Funkcja losująca liczbę od 1 do 6 i wyświetlająca ją na ekranie."""
-        self.oczko = random.randint(1, 3)
-        self.komunikat = str(self.oczko)
-        self.komunikat2 = "<-- Twoja liczba. "
-        self.czcionka = pygame.font.SysFont("dejavusans", 20)
-        self.renderowanie_tekstu = self.czcionka.render(self.komunikat, 1, (250, 250, 250))
-        self.renderowanie_tekstu2 = self.czcionka.render(self.komunikat2, 1, (250, 250, 250))
-        self.zaslona = pygame.Rect(30, 550, 40, 40)
-        pygame.draw.rect(self.screen, self.kolor_czarny, self.zaslona)
-        self.zaslona_napis = pygame.Rect(60, 550, 165, 40)
-        pygame.draw.rect(self.screen, self.kolor_czarny, self.zaslona_napis)
-        self.screen.blit(self.renderowanie_tekstu, (30, 550))
-        self.screen.blit(self.renderowanie_tekstu2, (60, 550))
-        pygame.display.update()
+class Pawn(object):
 
-    def ruch(self):
-        """Funkcja wskazująca położenie pionka."""
-        self.licznik = 0
-        if self.oczko + self.licznik == 1:
-            self.niebieski = self.czerwony
-            self.a = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(400, 170, 40, 40))
-            self.licznik += self.oczko
-            pygame.display.update()
-        elif self.oczko + self.licznik == 2:
-            self.niebieski = self.czerwony
-            self.b = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(441, 170, 40, 40))
-            self.licznik += self.oczko
-            pygame.display.update()
-        elif self.oczko + self.licznik == 3:
-            self.niebieski = self.czerwony
-            self.c = pygame.draw.rect(self.screen, self.niebieski, pygame.Rect(441, 211, 40, 40))
-            self.licznik += self.oczko
-            pygame.display.update()
+    def __init__(self):
+        pass
+
+    def position_draw(self):
+
+        pass
+
 
 if __name__ == '__main__':
-    plansza()
+    Plansza()

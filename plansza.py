@@ -34,35 +34,36 @@ class Plansza(object):
                 self.draw()
 
     def draw(self):
-        for i in range(0, 220, 55):
+        for i in range(0, 440, 55):
             self.wsp_x = 200 + i
             self.wsp_y = 300
             self.obiekt = Vector2(self.wsp_x, self.wsp_y)
             self.wspolrzedne_srodkow.append(self.obiekt)
-            self.kwadrat = pygame.Rect(self.wsp_x,self.wsp_y, 50, 50)
+            self.kwadrat = pygame.Rect(self.wsp_x, self.wsp_y, 50, 50)
             pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
-        for j in range(0, 165, 55):
-            self.wsp_x = 420
+        for j in range(0, 275, 55):
+            self.wsp_x = 640
             self.wsp_y = 300 - j
             self.obiekt = Vector2(self.wsp_x, self.wsp_y)
             self.wspolrzedne_srodkow.append(self.obiekt)
-            self.kwadrat = pygame.Rect(420, 300-j, 50, 50)
+            self.kwadrat = pygame.Rect(self.wsp_x, self.wsp_y, 50, 50)
             pygame.draw.rect(self.screen, (0, 150, 255), self.kwadrat)
         print(self.wspolrzedne_srodkow)
         pygame.display.flip()
 
     def random(self):
-        self.los = random.randint(1, 1)
+        self.los = random.randint(1, 6)
         print(self.los)
 
     def move(self):
 
         self.tempRuch = self.ruch+self.los
         if self.tempRuch >= len(self.wspolrzedne_srodkow):
-            self.tak = pygame.Rect(420, 190, 50, 50)
+            self.tak = pygame.Rect(640, 80, 50, 50)
             self.pole1 = pygame.draw.rect(self.screen, self.zielony, self.tak)
             pygame.display.flip()
             print("przekroczony indeks tablicy")
+            self.ruch = self.tempRuch
             pass
 
         else:

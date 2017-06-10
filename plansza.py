@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import time
 from pygame.math import Vector2
 from gracz import Player
 
@@ -35,7 +36,7 @@ class Plansza(Player):
                 sys.exit(0)
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_l:
                 self.random(self.black)
-                self.move(self.wspolrzedne_srodkow,self.ruch, self.green)
+                self.move(self.wspolrzedne_srodkow,self.ruch, self.green,self.black,self.screen)
                 self.sprawdz_zdarzenia()
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_d:
                 self.draw()
@@ -58,10 +59,32 @@ class Plansza(Player):
             self.zdarzenia.append(obiekt)
             kwadrat = pygame.Rect(wsp_x, wsp_y, 50, 50)
             pygame.draw.rect(self.screen, self.blue, kwadrat)
+
+        for x in range(0,275,55):
+            wsp_x = 640 + x
+            wsp_y = 80
+            obiekt = Vector2(wsp_x, wsp_y)
+            self.wspolrzedne_srodkow.append(obiekt)
+            self.zdarzenia.append(obiekt)
+            kwadrat = pygame.Rect(wsp_x, wsp_y, 50, 50)
+            pygame.draw.rect(self.screen, self.blue, kwadrat)
+        for a in range(0,385,55):
+            wsp_x = 860
+            wsp_y = 80 + a
+            obiekt = Vector2(wsp_x, wsp_y)
+            self.wspolrzedne_srodkow.append(obiekt)
+            self.zdarzenia.append(obiekt)
+            kwadrat = pygame.Rect(wsp_x, wsp_y, 50, 50)
+            pygame.draw.rect(self.screen, self.blue, kwadrat)
+        for b in range(0,715,55):
+            wsp_x = 860 - b
+            wsp_y = 410
+            obiekt = Vector2(wsp_x, wsp_y)
+            self.wspolrzedne_srodkow.append(obiekt)
+            self.zdarzenia.append(obiekt)
+            kwadrat = pygame.Rect(wsp_x, wsp_y, 50, 50)
+            pygame.draw.rect(self.screen, self.blue, kwadrat)
         pygame.display.flip()
-
-
-
 
 
 if __name__ == '__main__':

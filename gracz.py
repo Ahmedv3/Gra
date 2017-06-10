@@ -7,10 +7,13 @@ class Player():
     def __init__(self):
         self.hp = 100
         self.gold = 0
+        self.losowe_zdarzenia = random.randint(20, 35) ## 2 nowe linie
+        print(self.losowe_zdarzenia)
+
 
     def random(self,black):
         font = pygame.font.SysFont("dejavusans", 20)
-        self.los = random.randint(1, 1)
+        self.los = random.randint(1, 6)
         text = str(self.los)
         text2 = "Twoja liczba to: "
         txt_rendering = font.render(text, 1, (250, 250, 250))
@@ -23,14 +26,16 @@ class Player():
         self.screen.blit(txt_rendering, (190, 550))
         pygame.display.flip()
 
-    def move(self,wspolrzedne_srodkow,green,ruch):
+    def move(self,wspolrzedne_srodkow,green,ruch,black,screen):
 
         tempRuch = self.ruch + self.los
         if tempRuch >= len(self.wspolrzedne_srodkow):
-            tak = pygame.Rect(640, 80, 50, 50)
-            pole1 = pygame.draw.rect(self.screen, self.green, tak)
-            pygame.display.flip()
+            pionek = pygame.Rect(200, 410, 50, 50)
+            pygame.draw.rect(self.screen, self.green, pionek)
+            self.wspolrzedne_srodkow.append(Vector2((200,410)))
             self.ruch = tempRuch
+            self.screen.fill(self.black)
+            pygame.display.flip()
             pass
 
         else:
@@ -41,9 +46,10 @@ class Player():
             self.ruch = tempRuch
         pygame.display.flip()
 
+
     def sprawdz_zdarzenia(self):
 
-        for i in range(0,12,2):
+        for i in range(0,self.losowe_zdarzenia,2):
             if self.wspolrzedne_srodkow[i] == self.pole:
                 print("znalazles skrzynie ze zlotem dostajesz 20 szt zlota!")
                 self.gold += 20

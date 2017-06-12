@@ -30,7 +30,8 @@ class Plansza(Player):
         self.green = (0, 250, 0)
         self.blue = (65, 34, 39)
         self.black = (0, 0, 0)
-
+        self.plansza=pygame.image.load('plansza.png')
+        self.plansza_tlo = pygame.display.get_surface()
         self.ruch = 0
 
         super().__init__()
@@ -46,6 +47,8 @@ class Plansza(Player):
             elif self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_ESCAPE:
                 sys.exit(0)
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_l:
+                ## PROBLEM JEST TUTAJ TRZEBA BULION ZROBIC KONIEC CZY COS W TYM STYLU ALBO PODMIENIC FUNKCJE
+                ## BO SPRAWDZA WALKĘ I WYWALA JĄ I POTEM NA NOWO RUSYJE A NIE POWINIEN
                 self.random(self.black)
                 self.move(self.wspolrzedne_srodkow,self.ruch, self.green,self.black,self.screen)
                 self.sprawdz_walke(self.screen,self.walka_status)
@@ -55,20 +58,31 @@ class Plansza(Player):
                 self.draw()
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_a:
                 if self.walka_status == True:
+                    self.kontynuacja(self.walka_status)
                     self.atak()
+                    zaslona = pygame.Rect(45, 620, 350, 100)
+                    font = pygame.font.SysFont("dejavusans", 20)
+                    text = "Zadales {} obrazen bandycie.".format(self.obrazenia_gracz)
+                    txt_rendering = font.render(text, 1, (250, 250, 250))
+                    text2 = "Bandyta zadal ci {} obrazen.".format(self.obrazenia_przeciwnik)
+                    txt_rendering2 = font.render(text2, 1, (250, 250, 250))
+                    pygame.draw.rect(self.screen, self.black, zaslona)
+                    self.screen.blit(txt_rendering, (50,625))
+                    self.screen.blit(txt_rendering2, (50,670))
+                    pygame.display.flip()
                     if self.przeciwnik_hp <= 0:
-                        self.kontynuacja(self.walka_status)
-                        print(self.walka_status)
+                        self.walka_status=False
+                        self.draw()
+                        self.move(self.wspolrzedne_srodkow,self.ruch, self.green,self.black,self.screen)
                     elif self.hp <= 0:
-                        print("zginales")
+                        self.przegrana()
                 else:
+                    #print("wyszedłem")
                     pass
 
     def draw(self):
-        self.screen.fill(self.black)
-        plansza_gry = pygame.image.load('plansza.png')
-        plansza_tlo = pygame.display.get_surface()
-        plansza_tlo.blit(plansza_gry, (15,0))
+
+        self.plansza_tlo.blit(self.plansza, (15,0))
         for i in range(0, 440, 55):
             wsp_x = 200 + i
             wsp_y = 300
@@ -111,8 +125,8 @@ class Plansza(Player):
             self.zdarzenia.append(obiekt)
             kwadrat = pygame.Rect(wsp_x, wsp_y, 50, 50)
             pygame.draw.rect(self.screen, self.blue, kwadrat)
-        pygame.display.flip()
-        print(self.wspolrzedne_srodkow)
+
+        pygame.display.update()
 
     def ekran_startowy(self):
         for h in range(0,1250,55):

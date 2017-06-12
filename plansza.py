@@ -7,16 +7,13 @@ from gracz import Player
 from pygame.locals import *
 from walka import Walka
 
-class Plansza(Player,Walka):
-    # sprawdzic czy pola nie nakładają sie!!!
+class Plansza(Player):
 
     def __init__(self):
         self.resolution = (1280,720)
         self.screen = pygame.display.set_mode(self.resolution)
         pygame.display.set_caption("Knight And Magic 1.0")
-        #self.size = self.screen.get_size()
 
-        #self.clock = pygame.time.Clock()
         self.elfik = pygame.image.load('elf.png')
         self.tlo = pygame.display.get_surface()
         self.tlo2 = pygame.display.get_surface()
@@ -24,9 +21,8 @@ class Plansza(Player,Walka):
         self.logo = pygame.image.load('miecze_czarne.png')
         self.tlo2.blit(self.logo, (80,50))
 
-        #self.komunikat = False
+        self.walka_status = False
         self.start = False
-
 
         self.wspolrzedne_srodkow = []
         self.zdarzenia = []
@@ -35,10 +31,11 @@ class Plansza(Player,Walka):
         self.blue = (65, 34, 39)
         self.black = (0, 0, 0)
 
-
         self.ruch = 0
 
         super().__init__()
+
+
 
         pygame.init()
 
@@ -51,11 +48,22 @@ class Plansza(Player,Walka):
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_l:
                 self.random(self.black)
                 self.move(self.wspolrzedne_srodkow,self.ruch, self.green,self.black,self.screen)
+                self.sprawdz_walke(self.screen,self.walka_status)
                 self.sprawdz_zdarzenia(self.screen,self.black)
-                self.sprawdz_walke()
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_d:
                 self.start = True
                 self.draw()
+            if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_a:
+                if self.walka_status == True:
+                    self.atak()
+                    if self.przeciwnik_hp <= 0:
+                        self.kontynuacja(self.walka_status)
+                        print(self.walka_status)
+                    elif self.hp <= 0:
+                        print("zginales")
+                else:
+                    pass
+
     def draw(self):
         self.screen.fill(self.black)
         plansza_gry = pygame.image.load('plansza.png')

@@ -11,7 +11,8 @@ class Player(Walka):
         self.zloto = random.randint(50, 1000)
         self.tempRuch = 0
         print(self.losowe_zdarzenia)
-
+        self.punkty_walk = [Vector2((310,300)),Vector2((365,300)),Vector2((420,300)),Vector2((530,300)),Vector2((640,135)),Vector2((640,80))]
+        super().__init__()
 
     def random(self,black):
         font = pygame.font.SysFont("dejavusans", 20)
@@ -46,7 +47,6 @@ class Player(Walka):
             self.ruch = self.tempRuch
         pygame.display.flip()
 
-
     def sprawdz_zdarzenia(self,screen,black):
         zloto = random.randint(50, 1000)
         zaslona = pygame.Rect(270, 650, 600, 40)
@@ -68,9 +68,28 @@ class Player(Walka):
             else:
                 self.screen.blit(txt_rendering2, (1000,650))
                 pass
-    def sprawdz_walke(self):
-        if self.wspolrzedne_srodkow[self.tempRuch] == Vector2((310,300)):
-            self.okno_walki()
+
+    def sprawdz_walke(self,screen,walka_status):
+        if self.wspolrzedne_srodkow[2] == self.punkty_walk[0]:
+            self.walka_status = True
+            self.okno_walki(self.screen)
             pass
+        #elif self.wspolrzedne_srodkow[3] == self.punkty_walk[1]:
+        #    self.walka_status = True
+        #    self.okno_walki(self.screen)
+        #    pass
+        #elif self.wspolrzedne_srodkow[4] == self.punkty_walk[2]:
+        #    self.walka_status = True
+        #    self.okno_walki(self.screen)
+        #    pass
+        #elif self.wspolrzedne_srodkow[6] == self.punkty_walk[3]:
+        #    self.walka_status = True
+        #    self.okno_walki(self.screen)
+        #    pass
+        #elif self.wspolrzedne_srodkow[11] == self.punkty_walk[4]:
+        #    self.walka_status = True
+        #    self.okno_walki(self.screen)
+        #    pass
+
         else:
-            print("nic")
+            pass

@@ -6,6 +6,7 @@ from pygame.math import Vector2
 from gracz import Player
 
 class Plansza(Player):
+    # sprawdzic czy pola nie nakładają sie!!!
 
     def __init__(self):
         self.resolution = (1280,720)
@@ -14,6 +15,10 @@ class Plansza(Player):
         #self.size = self.screen.get_size()
 
         #self.clock = pygame.time.Clock()
+
+        #self.komunikat = False
+        self.start = False
+
 
         self.wspolrzedne_srodkow = []
         self.zdarzenia = []
@@ -39,9 +44,10 @@ class Plansza(Player):
                 self.move(self.wspolrzedne_srodkow,self.ruch, self.green,self.black,self.screen)
                 self.sprawdz_zdarzenia()
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_d:
+                self.start = True
                 self.draw()
-
     def draw(self):
+        self.screen.fill(self.black)
         for i in range(0, 440, 55):
             wsp_x = 200 + i
             wsp_y = 300
@@ -86,10 +92,41 @@ class Plansza(Player):
             pygame.draw.rect(self.screen, self.blue, kwadrat)
         pygame.display.flip()
 
+    def ekran_startowy(self):
+        for h in range(0,1250,55):
+            wsp_x = 10 + h
+            wsp_y = 5
+            tlo = pygame.Rect(wsp_x,wsp_y,50,50)
+            pygame.draw.rect(self.screen,self.blue, tlo)
+        for m in range(0,1250,55):
+            wsp_x = 10 + m
+            wsp_y = 650
+            tlo = pygame.Rect(wsp_x,wsp_y,50,50)
+            pygame.draw.rect(self.screen,self.blue, tlo)
+        for o in range(0,550,55):
+            wsp_x = 10
+            wsp_y = 80 + o
+            tlo = pygame.Rect(wsp_x,wsp_y,50,50)
+            pygame.draw.rect(self.screen,self.blue, tlo)
+        for p in range(0,550,55):
+            wsp_x = 1220
+            wsp_y = 80 + p
+            tlo = pygame.Rect(wsp_x,wsp_y,50,50)
+            pygame.draw.rect(self.screen,self.blue, tlo)
+        font = pygame.font.SysFont("dejavusans", 20)
+        text = "Wcisnij d aby rozpoczac gre!"
+        txt_rendering = font.render(text, 1, (250, 250, 250))
+        self.screen.blit(txt_rendering, (525, 550))
+        pygame.display.flip()
 
 if __name__ == '__main__':
 
     plansza = Plansza()
 
     while True:
-        plansza.events()
+
+        if plansza.start == False:
+            plansza.ekran_startowy()
+            plansza.events()
+        else:
+            plansza.events()

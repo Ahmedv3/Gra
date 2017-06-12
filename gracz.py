@@ -7,7 +7,7 @@ class Player():
     def __init__(self):
         self.hp = 100
         self.gold = 0
-        self.losowe_zdarzenia = random.randint(20, 35) ## 2 nowe linie
+        self.losowe_zdarzenia = random.randint(20, 35)
         print(self.losowe_zdarzenia)
 
 
@@ -35,21 +35,18 @@ class Player():
             self.wspolrzedne_srodkow.append(Vector2((200,410)))
             self.ruch = tempRuch
             self.screen.fill(self.black)
-            pygame.display.flip()
             pass
 
         else:
             self.pole = self.wspolrzedne_srodkow[tempRuch]
             figura = pygame.Rect(self.pole.x, self.pole.y, 50, 50)
             pygame.draw.rect(self.screen, self.green, figura)
-            pygame.display.flip()
             self.ruch = tempRuch
         pygame.display.flip()
 
 
     def sprawdz_zdarzenia(self):
-
-        for i in range(0,self.losowe_zdarzenia,2):
+        for i in range(0,self.losowe_zdarzenia):
             if self.wspolrzedne_srodkow[i] == self.pole:
                 print("znalazles skrzynie ze zlotem dostajesz 20 szt zlota!")
                 self.gold += 20

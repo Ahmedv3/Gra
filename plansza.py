@@ -47,8 +47,6 @@ class Plansza(Player):
             elif self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_ESCAPE:
                 sys.exit(0)
             if self.event.type == pygame.KEYDOWN and self.event.key == pygame.K_l:
-                ## PROBLEM JEST TUTAJ TRZEBA BULION ZROBIC KONIEC CZY COS W TYM STYLU ALBO PODMIENIC FUNKCJE
-                ## BO SPRAWDZA WALKĘ I WYWALA JĄ I POTEM NA NOWO RUSYJE A NIE POWINIEN
                 self.random(self.black)
                 self.move(self.wspolrzedne_srodkow,self.ruch, self.green,self.black,self.screen)
                 self.sprawdz_walke(self.screen,self.walka_status)

@@ -5,6 +5,7 @@ from pygame.locals import *
 class Walka(object):
 
     def __init__(self):
+        """Konstruktor inicjujący wartości początkowe dla przeciwnika i gracza."""
         self.hp = 100
         self.przeciwnik_hp = 100
         self.obrazenia_gracz = 0
@@ -12,6 +13,7 @@ class Walka(object):
 
 
     def atak(self):
+        """Funkcja ataku gracza zwracająca życie przeciwnika po wykonaniu ataku."""
         self.obrazenia_gracz = random.randint(10, 30)
         self.przeciwnik_hp -= self.obrazenia_gracz
         self.atak_przeciwnik()
@@ -19,15 +21,18 @@ class Walka(object):
 
 
     def atak_przeciwnik(self):
-        self.obrazenia_przeciwnik = random.randint(5, 15)
+        """Funkcja ataku przeciwnika zwracająca życie gracza po wykonaniu ataku."""
+        self.obrazenia_przeciwnik = random.randint(10, 30)
         self.hp -= self.obrazenia_przeciwnik
     #    print("przeciwnik {}".format(self.hp))
         return self.hp
 
     def kontynuacja(self,walka_status):
+        """Funkcja wywoływana w przypadku wygranej gracza z przeciwnikiem, zerująca listę z współrzędnymi środków. """
         self.wspolrzedne_srodkow = []
 
     def przegrana(self):
+        """Wywoływana w momencie przegranej gracza, wyswietlająca zdobyte zloto i komunikat."""
         self.screen.fill(self.black)
         pygame.display.flip()
         font = pygame.font.SysFont("dejavusans", 20)
@@ -48,6 +53,7 @@ class Walka(object):
 
 
     def okno_walki(self,screen):
+        """Funkcja czyszcząca ekran i przygotowująca scenerię walki, wyswietla komunikat oraz ustawia zycia przeciwnika i gracza na 100 """
         self.hp = 100
         self.przeciwnik_hp = 100
         self.screen.fill(self.black)

@@ -10,6 +10,7 @@ from walka import Walka
 class Plansza(Player):
 
     def __init__(self):
+        """Konstruktor inicjujący ustawienia początkowe, rysujący tło i ekran poczatkowy."""
         self.resolution = (1280,720)
         self.screen = pygame.display.set_mode(self.resolution)
         pygame.display.set_caption("Knight And Magic 1.0")
@@ -41,6 +42,7 @@ class Plansza(Player):
         pygame.init()
 
     def events(self):
+        """Funkcja obsługi klawiszy"""
         for self.event in pygame.event.get():
             if self.event.type == pygame.QUIT:
                 sys.exit(0)
@@ -79,6 +81,7 @@ class Plansza(Player):
                     pass
 
     def draw(self):
+        """Funkcja rusyjąca planszę."""
 
         self.plansza_tlo.blit(self.plansza, (15,0))
         for i in range(0, 440, 55):
@@ -127,6 +130,7 @@ class Plansza(Player):
         pygame.display.update()
 
     def ekran_startowy(self):
+        """Funkcja rysująca ekran startowy."""
         for h in range(0,1250,55):
             wsp_x = 10 + h
             wsp_y = 5

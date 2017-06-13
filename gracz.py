@@ -6,15 +6,17 @@ from walka import Walka
 class Player(Walka):
 
     def __init__(self):
+        """Konstruktor inicjujący wartości wykorzystywane przy funkcji random i move. """
         self.gold = 0
         self.losowe_zdarzenia = random.randint(7, 15)
         self.zloto = random.randint(50, 1000)
         self.tempRuch = 0
     #    print(self.losowe_zdarzenia)
-        self.punkty_walk = [Vector2((310,300)),Vector2((365,300)),Vector2((420,300)),Vector2((530,300)),Vector2((640,135)),Vector2((640,80))]
+        #self.punkty_walk = [Vector2((310,300)),Vector2((365,300)),Vector2((420,300)),Vector2((530,300)),Vector2((640,135)),Vector2((640,80))]
         super().__init__()
 
     def random(self,black):
+        """Funkcja odpowiadająca za losowanie i wyświetlanie komunikatu o ilości wylosowanych oczek"""
         font = pygame.font.SysFont("dejavusans", 20)
         self.los = random.randint(1, 6)
         text = str(self.los)
@@ -30,6 +32,7 @@ class Player(Walka):
         pygame.display.flip()
 
     def move(self,wspolrzedne_srodkow,green,ruch,black,screen):
+        """Funkcja odpowiedzialna za wskazywanie położenia na planszy oraz wyświetlanie okna końca gry."""
         self.tempRuch = self.ruch + self.los
         #print(len(self.wspolrzedne_srodkow),"  " , self.tempRuch)
         if self.tempRuch >= len(self.wspolrzedne_srodkow):
@@ -67,6 +70,7 @@ class Player(Walka):
             pygame.display.flip()
 
     def sprawdz_zdarzenia(self,screen,black):
+        """Funkcja sprawdzająca czy na danym polu znajduje się zdarzenie i wyświetlająca komunikat o tym."""
         zloto = random.randint(50, 1000)
         zaslona = pygame.Rect(300, 650, 720, 40)
         zaslona2 = pygame.Rect(1000, 650, 200, 40)
@@ -89,6 +93,7 @@ class Player(Walka):
                 pass
 
     def sprawdz_walke(self,screen,walka_status):
+        """Funkcja losująca szansę wystąpienia walki."""
         self.bandyta = random.randint(1, 5)
         if self.bandyta == 3:
             self.walka_status = True
